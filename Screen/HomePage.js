@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TextInput } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+<<<<<<< HEAD
 
 const HomePage = ({ navigation }) => {
   const handleNotificationPress = () => {
@@ -17,13 +18,32 @@ const HomePage = ({ navigation }) => {
         <TouchableOpacity style={styles.iconContainer} onPress={handleSettingsPress}>
           <Ionicons name="settings-outline" size={24} color="black" style={styles.icon} />
         </TouchableOpacity>
+=======
+
+const HomePage = () => {
+  return (
+    <View style={styles.container}>
+      <View style={styles.navbar}>
+>>>>>>> db6643b3557d95188fdb93041a7820d335f44bf7
         <Text style={styles.title}>App SDF</Text>
-        <TouchableOpacity style={styles.iconContainer} onPress={handleNotificationPress}>
-          <Ionicons name="notifications-outline" size={24} color="black" style={styles.icon} />
-        </TouchableOpacity>
+        <View style={styles.iconContainer}>
+          <Ionicons name="settings-outline" size={30} color="black" style={styles.icon} />
+          <Ionicons name="notifications-outline" size={30} color="black" style={styles.icon} />
+        </View>
       </View>
       <View style={styles.separator} />
-      {/* Le reste du contenu de votre page d'accueil */}
+      <View style={styles.content}>
+        <View style={styles.searchBar}>
+          <Ionicons name="search-outline" size={24} color="black" style={styles.searchIcon} />
+          <TextInput
+            style={styles.searchInput}
+            placeholder="Rechercher..."
+            // Ajoutez ici les fonctions de gestion de la recherche
+          />
+        </View>
+        <View style={styles.separator} />
+        {/* Le reste du contenu de votre page d'accueil */}
+      </View>
     </View>
   );
 };
@@ -31,7 +51,7 @@ const HomePage = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F2F1EC',
+    backgroundColor: '#ffffff',
   },
   navbar: {
     flexDirection: 'row',
@@ -39,25 +59,52 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 16,
     paddingTop: 32,
+    height: 100, // Hauteur de la navbar
   },
   title: {
     fontSize: 20,
     fontWeight: 'bold',
-    textAlign: 'center',
+    textAlign: 'left',
   },
   iconContainer: {
+    flexDirection: 'row',
     paddingHorizontal: 16,
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
     alignItems: 'center',
   },
   icon: {
     fontSize: 24,
     color: 'black',
+    marginLeft: 16,
   },
   separator: {
     height: 1,
     backgroundColor: 'black',
     marginHorizontal: 16,
+  },
+  content: {
+    flex: 1,
+    paddingHorizontal: 16,
+  },
+  searchBar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    marginBottom: 16,
+  },
+  searchIcon: {
+    fontSize: 24,
+    color: 'black',
+    marginRight: 8,
+  },
+  searchInput: {
+    flex: 1,
+    height: 36,
+    borderWidth: 1,
+    borderColor: 'black',
+    borderRadius: 8,
+    paddingHorizontal: 12,
   },
 });
 
