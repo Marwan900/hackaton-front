@@ -1,7 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, TextInput } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { Icon } from 'react-native-elements';
 
 const HomePage = () => {
   return (
@@ -27,9 +26,6 @@ const HomePage = () => {
         </View>
         <View style={styles.separator} />
         {/* Le reste du contenu de votre page d'accueil */}
-      </View>
-      <View style={styles.bubbleIconContainer}>
-        <Icon name="message" type="ionicon" size={30} color="black" />
       </View>
     </View>
   );
@@ -90,11 +86,6 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     borderRadius: 8,
     paddingHorizontal: 12,
-  },
-  bubbleIconContainer: {
-    position: 'absolute',
-    bottom: 16,
-    right: 16,
   },
 });
 
