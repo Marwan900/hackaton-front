@@ -1,19 +1,22 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import NotificationPage from './Notification';
 
 const HomePage = ({ navigation }) => {
   const handleNotificationPress = () => {
     navigation.navigate('Notification');
   };
 
+  const handleSettingsPress = () => {
+    navigation.navigate('Settings');
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.navbar}>
-        <View style={styles.iconContainer}>
+        <TouchableOpacity style={styles.iconContainer} onPress={handleSettingsPress}>
           <Ionicons name="settings-outline" size={24} color="black" style={styles.icon} />
-        </View>
+        </TouchableOpacity>
         <Text style={styles.title}>App SDF</Text>
         <TouchableOpacity style={styles.iconContainer} onPress={handleNotificationPress}>
           <Ionicons name="notifications-outline" size={24} color="black" style={styles.icon} />
