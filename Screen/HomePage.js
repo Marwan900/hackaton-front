@@ -23,7 +23,7 @@ const HomePage = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#ffffff',
+    backgroundColor: '#F2F1EC',
   },
   navbar: {
     flexDirection: 'row',
