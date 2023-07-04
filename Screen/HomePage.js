@@ -1,21 +1,36 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TextInput } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { Icon } from 'react-native-elements';
 
 const HomePage = () => {
   return (
     <View style={styles.container}>
       <View style={styles.navbar}>
         <View style={styles.iconContainer}>
-          <Ionicons name="settings-outline" size={24} color="black" style={styles.icon} />
+          <Ionicons name="settings-outline" size={30} color="black" style={styles.icon} />
         </View>
         <Text style={styles.title}>App SDF</Text>
         <View style={styles.iconContainer}>
-          <Ionicons name="notifications-outline" size={24} color="black" style={styles.icon} />
+          <Ionicons name="notifications-outline" size={30} color="black" style={styles.icon} />
         </View>
       </View>
       <View style={styles.separator} />
-      {/* Le reste du contenu de votre page d'accueil */}
+      <View style={styles.content}>
+        <View style={styles.searchBar}>
+          <Ionicons name="search-outline" size={24} color="black" style={styles.searchIcon} />
+          <TextInput
+            style={styles.searchInput}
+            placeholder="Rechercher..."
+            // Ajoutez ici les fonctions de gestion de la recherche
+          />
+        </View>
+        <View style={styles.separator} />
+        {/* Le reste du contenu de votre page d'accueil */}
+      </View>
+      <View style={styles.bubbleIconContainer}>
+        <Icon name="message" type="ionicon" size={30} color="black" />
+      </View>
     </View>
   );
 };
@@ -29,8 +44,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 16,
+    paddingHorizontal: 143,
     paddingTop: 32,
+    height: 100, // Hauteur de la navbar
   },
   title: {
     fontSize: 20,
@@ -38,7 +54,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   iconContainer: {
-    paddingHorizontal: 140,
+    paddingHorizontal: 16,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -50,6 +66,35 @@ const styles = StyleSheet.create({
     height: 1,
     backgroundColor: 'black',
     marginHorizontal: 16,
+  },
+  content: {
+    flex: 1,
+    paddingHorizontal: 16,
+  },
+  searchBar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    marginBottom: 16,
+  },
+  searchIcon: {
+    fontSize: 24,
+    color: 'black',
+    marginRight: 8,
+  },
+  searchInput: {
+    flex: 1,
+    height: 36,
+    borderWidth: 1,
+    borderColor: 'black',
+    borderRadius: 8,
+    paddingHorizontal: 12,
+  },
+  bubbleIconContainer: {
+    position: 'absolute',
+    bottom: 16,
+    right: 16,
   },
 });
 
