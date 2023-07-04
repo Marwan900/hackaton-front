@@ -12,7 +12,6 @@ const HomePage = () => {
           <Ionicons name="notifications-outline" size={30} color="black" style={styles.icon} />
         </View>
       </View>
-      <View style={styles.separator} />
       <View style={styles.content}>
         <View style={styles.searchBar}>
           <Ionicons name="search-outline" size={24} color="black" style={styles.searchIcon} />
@@ -22,7 +21,6 @@ const HomePage = () => {
             // Ajoutez ici les fonctions de gestion de la recherche
           />
         </View>
-        <View style={styles.separator} />
         {/* Le reste du contenu de votre page d'accueil */}
       </View>
     </View>
