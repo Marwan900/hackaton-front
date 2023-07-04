@@ -1,7 +1,6 @@
 import React from 'react';
-import { View, Text, StyleSheet, TextInput } from 'react-native';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-<<<<<<< HEAD
 
 const HomePage = ({ navigation }) => {
   const handleNotificationPress = () => {
@@ -15,21 +14,13 @@ const HomePage = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.navbar}>
+        <TouchableOpacity style={styles.iconContainer} onPress={handleNotificationPress}>
+          <Ionicons name="notifications-outline" size={24} color="black" style={styles.icon} />
+        </TouchableOpacity>
+        <Text style={styles.title}>App SDF</Text>
         <TouchableOpacity style={styles.iconContainer} onPress={handleSettingsPress}>
           <Ionicons name="settings-outline" size={24} color="black" style={styles.icon} />
         </TouchableOpacity>
-=======
-
-const HomePage = () => {
-  return (
-    <View style={styles.container}>
-      <View style={styles.navbar}>
->>>>>>> db6643b3557d95188fdb93041a7820d335f44bf7
-        <Text style={styles.title}>App SDF</Text>
-        <View style={styles.iconContainer}>
-          <Ionicons name="settings-outline" size={30} color="black" style={styles.icon} />
-          <Ionicons name="notifications-outline" size={30} color="black" style={styles.icon} />
-        </View>
       </View>
       <View style={styles.separator} />
       <View style={styles.content}>
@@ -43,6 +34,20 @@ const HomePage = () => {
         </View>
         <View style={styles.separator} />
         {/* Le reste du contenu de votre page d'accueil */}
+      </View>
+      <View style={styles.footer}>
+        <TouchableOpacity style={styles.footerButton}>
+          <Ionicons name="medkit-outline" size={24} color="black" style={styles.footerIcon} />
+          <Text style={styles.footerText}>Médical</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.footerButton}>
+          <Ionicons name="fast-food-outline" size={24} color="black" style={styles.footerIcon} />
+          <Text style={styles.footerText}>Manger</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.footerButton}>
+          <Ionicons name="home-outline" size={24} color="black" style={styles.footerIcon} />
+          <Text style={styles.footerText}>Maison</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -105,6 +110,26 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     borderRadius: 8,
     paddingHorizontal: 12,
+  },
+  footer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    borderTopWidth: 1,
+    borderTopColor: 'black',
+    paddingVertical: 16,
+  },
+  footerButton: {
+    alignItems: 'center',
+  },
+  footerIcon: {
+    fontSize: 24,
+    color: 'black',
+  },
+  footerText: {
+    marginTop: 8,
+    fontSize: 12,
+    color: 'black',
   },
 });
 
