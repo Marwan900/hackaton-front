@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
-import HomePage from './HomePage';
 
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
