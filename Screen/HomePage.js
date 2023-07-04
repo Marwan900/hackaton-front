@@ -6,11 +6,9 @@ const HomePage = () => {
   return (
     <View style={styles.container}>
       <View style={styles.navbar}>
-        <View style={styles.iconContainer}>
-          <Ionicons name="settings-outline" size={30} color="black" style={styles.icon} />
-        </View>
         <Text style={styles.title}>App SDF</Text>
         <View style={styles.iconContainer}>
+          <Ionicons name="settings-outline" size={30} color="black" style={styles.icon} />
           <Ionicons name="notifications-outline" size={30} color="black" style={styles.icon} />
         </View>
       </View>
@@ -40,23 +38,25 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 143,
+    paddingHorizontal: 16,
     paddingTop: 32,
     height: 100, // Hauteur de la navbar
   },
   title: {
     fontSize: 20,
     fontWeight: 'bold',
-    textAlign: 'center',
+    textAlign: 'left',
   },
   iconContainer: {
+    flexDirection: 'row',
     paddingHorizontal: 16,
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
     alignItems: 'center',
   },
   icon: {
     fontSize: 24,
     color: 'black',
+    marginLeft: 16,
   },
   separator: {
     height: 1,
