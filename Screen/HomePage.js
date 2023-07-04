@@ -1,8 +1,13 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import NotificationPage from './Notification';
 
-const HomePage = () => {
+const HomePage = ({ navigation }) => {
+  const handleNotificationPress = () => {
+    navigation.navigate('Notification');
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.navbar}>
@@ -10,9 +15,9 @@ const HomePage = () => {
           <Ionicons name="settings-outline" size={24} color="black" style={styles.icon} />
         </View>
         <Text style={styles.title}>App SDF</Text>
-        <View style={styles.iconContainer}>
+        <TouchableOpacity style={styles.iconContainer} onPress={handleNotificationPress}>
           <Ionicons name="notifications-outline" size={24} color="black" style={styles.icon} />
-        </View>
+        </TouchableOpacity>
       </View>
       <View style={styles.separator} />
       {/* Le reste du contenu de votre page d'accueil */}
@@ -38,7 +43,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   iconContainer: {
-    paddingHorizontal: 140,
+    paddingHorizontal: 16,
     justifyContent: 'center',
     alignItems: 'center',
   },

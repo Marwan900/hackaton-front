@@ -1,19 +1,29 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import HomePage from './HomePage';
 
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [users, setUsers] = useState([]);
+  const [passwords, setPasswords] = useState([]);
 
   const handleLogin = () => {
     // Logique pour gérer la connexion de l'utilisateur
-    if (email === 'jane@example.com' && password === 'password123') {
-      // Connexion réussie
+    const userIndex = users.findIndex(user => user === email);
+    if (userIndex !== -1 && passwords[userIndex] === password) {
       navigation.navigate('Home');
     } else {
-      // Identifiants incorrects
       alert('Identifiants incorrects');
     }
+  };
+
+  const handleSignUp = () => {
+    // Ajouter les informations de l'utilisateur dans les listes
+    setUsers([...users, email]);
+    setPasswords([...passwords, password]);
+    setEmail('');
+    setPassword('');
   };
 
   return (
@@ -35,6 +45,9 @@ const LoginScreen = ({ navigation }) => {
       <TouchableOpacity style={styles.button} onPress={handleLogin}>
         <Text style={styles.buttonText}>Se connecter</Text>
       </TouchableOpacity>
+      <TouchableOpacity style={styles.signupButton} onPress={handleSignUp}>
+        <Text style={styles.signupButtonText}>S'inscrire</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -44,8 +57,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F2F1EC',
-    paddingHorizontal: 20,
+    backgroundColor: '#F5F5F5',
   },
   title: {
     fontSize: 24,
@@ -53,7 +65,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   input: {
-    width: '100%',
+    width: '80%',
     height: 40,
     borderWidth: 1,
     borderColor: '#CCCCCC',
@@ -63,8 +75,8 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: '#4287f5',
-    width: '100%',
     paddingVertical: 10,
+    paddingHorizontal: 20,
     borderRadius: 5,
     marginBottom: 10,
   },
@@ -72,7 +84,17 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 16,
     fontWeight: 'bold',
-    textAlign: 'center',
+  },
+  signupButton: {
+    backgroundColor: '#CCCCCC',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+  },
+  signupButtonText: {
+    color: 'black',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });
 
