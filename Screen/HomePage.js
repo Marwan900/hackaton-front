@@ -1,7 +1,6 @@
 import React from 'react';
-import { View, Text, StyleSheet, TextInput } from 'react-native';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-<<<<<<< HEAD
 
 const HomePage = ({ navigation }) => {
   const handleNotificationPress = () => {
@@ -18,13 +17,6 @@ const HomePage = ({ navigation }) => {
         <TouchableOpacity style={styles.iconContainer} onPress={handleSettingsPress}>
           <Ionicons name="settings-outline" size={24} color="black" style={styles.icon} />
         </TouchableOpacity>
-=======
-
-const HomePage = () => {
-  return (
-    <View style={styles.container}>
-      <View style={styles.navbar}>
->>>>>>> db6643b3557d95188fdb93041a7820d335f44bf7
         <Text style={styles.title}>App SDF</Text>
         <View style={styles.iconContainer}>
           <Ionicons name="settings-outline" size={30} color="black" style={styles.icon} />
