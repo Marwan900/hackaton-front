@@ -4,7 +4,7 @@ import LoginScreen from './Screen/Login';
 import HomePage from './Screen/HomePage';
 import NotificationPage from './Screen/Notification';
 import SettingsScreen from './Screen/Settings';
-import MapComponent from './Screen/Map';
+import RegistrationPage from './Screen/RegistrationPage';
 
 const Stack = createStackNavigator();
 
@@ -12,11 +12,11 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Login">
-        <Stack.Screen name="Login" component={LoginScreen} />
-        <Stack.Screen name="Home" component={HomePage} />
+        <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }}/>
+        <Stack.Screen name="Registration" component={RegistrationPage} />
+        <Stack.Screen name="Home" component={HomePage} options={{ headerShown: false }}/>
         <Stack.Screen name="Notification" component={NotificationPage}></Stack.Screen>
         <Stack.Screen name="Settings" component={SettingsScreen}></Stack.Screen>
-        <Stack.Screen name="Map" component={MapComponent}></Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
   );

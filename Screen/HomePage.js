@@ -21,14 +21,6 @@ const HomePage = ({ navigation }) => {
         <TouchableOpacity style={styles.iconContainer} onPress={handleSettingsPress}>
           <Ionicons name="settings-outline" size={24} color="black" style={styles.icon} />
         </TouchableOpacity>
-<<<<<<< HEAD
-=======
-        <Text style={styles.title}>App SDF</Text>
-        <View style={styles.iconContainer}>
-          <Ionicons name="settings-outline" size={30} color="black" style={styles.icon} />
-          <Ionicons name="notifications-outline" size={30} color="black" style={styles.icon} />
-        </View>
->>>>>>> b9449063cce42872b524f8e103c3c5e84fb58845
       </View>
       <View style={styles.content}>
         <View style={styles.searchBar}>
@@ -43,16 +35,16 @@ const HomePage = ({ navigation }) => {
       </View>
       <View style={styles.footer}>
         <TouchableOpacity style={styles.footerButton}>
-          <Ionicons name="medkit-outline" size={24} color="black" style={styles.footerIcon} />
-          <Text style={styles.footerText}>Médical</Text>
+          <Ionicons name="search-outline" size={24} color="black" style={styles.footerIcon} />
+          <Text style={styles.footerText}>Search</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.footerButton}>
           <Ionicons name="fast-food-outline" size={24} color="black" style={styles.footerIcon} />
-          <Text style={styles.footerText}>Manger</Text>
+          <Text style={styles.footerText}>Annonces</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.footerButton}>
           <Ionicons name="home-outline" size={24} color="black" style={styles.footerIcon} />
-          <Text style={styles.footerText}>Maison</Text>
+          <Text style={styles.footerText}>Demmandes</Text>
         </TouchableOpacity>
       </View>
     </View>
