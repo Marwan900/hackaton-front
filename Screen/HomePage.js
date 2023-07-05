@@ -1,11 +1,14 @@
 import React from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity} from 'react-native';
+import { Picker } from '@react-native-picker/picker';
 import { Ionicons } from '@expo/vector-icons';
 
 const HomePage = ({ navigation }) => {
   const [message, setMessage] = React.useState("");
   const [isBubbleVisible, setIsBubbleVisible] = React.useState(false);
   const [messages, setMessages] = React.useState([]);
+  const [selectedType, setSelectedType] = React.useState("Médical");
+  const [location, setLocation] = React.useState("");
 
   const handleNotificationPress = () => {
     navigation.navigate('Notification');
@@ -20,10 +23,16 @@ const HomePage = ({ navigation }) => {
   };
 
   const handleSendMessage = () => {
-    if (message.trim() !== "") {
-      setMessages([...messages, message]);
-      setMessage(""); // Réinitialiser le champ de saisie du message
-      setIsBubbleVisible(false); // Masquer la bulle textuelle
+    if (message.trim() !== "" && location.trim() !== "") {
+      const newMessage = {
+        type: selectedType,
+        message: message,
+        location: location
+      };
+      setMessages([...messages, newMessage]);
+      setMessage("");
+      setLocation("");
+      setIsBubbleVisible(false);
     }
   };
 
@@ -50,29 +59,45 @@ const HomePage = ({ navigation }) => {
           <TextInput
             style={styles.searchInput}
             placeholder="Rechercher..."
-            // Ajoutez ici les fonctions de gestion de la recherche
           />
           <TouchableOpacity style={styles.addIconContainer} onPress={handleAddMessage}>
             <Ionicons name="add-outline" size={24} color="black" style={styles.addIcon} />
           </TouchableOpacity>
         </View>
-        {/* Le reste du contenu de votre page d'accueil */}
         {isBubbleVisible && (
           <View style={styles.messageBubble}>
+            <Text style={styles.modalTitle}>Nouveau message</Text>
+            <Picker
+              style={styles.picker}
+              selectedValue={selectedType}
+              onValueChange={(itemValue) => setSelectedType(itemValue)}
+            >
+              <Picker.Item label="Médical" value="Médical" />
+              <Picker.Item label="Alimentaire" value="Alimentaire" />
+              <Picker.Item label="Hébergement" value="Hébergement" />
+            </Picker>
             <TextInput
-              style={styles.messageInput}
-              placeholder="Entrez votre message..."
+              style={styles.modalInput}
+              placeholder="Message"
               value={message}
               onChangeText={setMessage}
             />
-            <TouchableOpacity style={styles.sendButton} onPress={handleSendMessage}>
-              <Text style={styles.sendButtonText}>Envoyer</Text>
+            <TextInput
+              style={styles.modalInput}
+              placeholder="Localisation"
+              value={location}
+              onChangeText={setLocation}
+            />
+            <TouchableOpacity style={styles.modalButton} onPress={handleSendMessage}>
+              <Text style={styles.modalButtonText}>Envoyer</Text>
             </TouchableOpacity>
           </View>
         )}
         {messages.map((msg, index) => (
           <View key={index} style={styles.messageContainer}>
-            <Text style={styles.messageText}>{msg}</Text>
+            <Text style={styles.messageType}>{msg.type}</Text>
+            <Text style={styles.messageText}>{msg.message}</Text>
+            <Text style={styles.messageLocation}>{msg.location}</Text>
             <TouchableOpacity
               style={styles.deleteButton}
               onPress={() => handleDeleteMessage(index)}
@@ -111,7 +136,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 16,
     paddingTop: 32,
-    height: 100, // Hauteur de la navbar
+    height: 100,
   },
   title: {
     fontSize: 20,
@@ -128,11 +153,6 @@ const styles = StyleSheet.create({
     fontSize: 24,
     color: 'black',
     marginLeft: 16,
-  },
-  separator: {
-    height: 1,
-    backgroundColor: 'black',
-    marginHorizontal: 16,
   },
   content: {
     flex: 1,
@@ -171,25 +191,32 @@ const styles = StyleSheet.create({
     right: 16,
     backgroundColor: '#ffffff',
     borderRadius: 8,
-    padding: 8,
-    flexDirection: 'row',
-    alignItems: 'center',
+    padding: 16,
+    width: '80%',
   },
-  messageInput: {
-    flex: 1,
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 8,
+  },
+  picker: {
+    marginBottom: 16,
+  },
+  modalInput: {
     height: 36,
     borderWidth: 1,
     borderColor: 'black',
     borderRadius: 8,
     paddingHorizontal: 12,
+    marginBottom: 16,
   },
-  sendButton: {
+  modalButton: {
     backgroundColor: '#000000',
     paddingHorizontal: 12,
     paddingVertical: 8,
     borderRadius: 8,
   },
-  sendButtonText: {
+  modalButtonText: {
     color: '#ffffff',
     fontWeight: 'bold',
   },
@@ -201,8 +228,19 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     position: 'relative',
   },
+  messageType: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 8,
+  },
   messageText: {
     fontSize: 16,
+    marginBottom: 8,
+  },
+  messageLocation: {
+    fontSize: 14,
+    color: 'gray',
+    marginBottom: 8,
   },
   deleteButton: {
     position: 'absolute',
