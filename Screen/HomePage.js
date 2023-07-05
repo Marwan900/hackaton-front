@@ -21,14 +21,6 @@ const HomePage = ({ navigation }) => {
         <TouchableOpacity style={styles.iconContainer} onPress={handleSettingsPress}>
           <Ionicons name="settings-outline" size={24} color="black" style={styles.icon} />
         </TouchableOpacity>
-<<<<<<< HEAD
-=======
-        <Text style={styles.title}>App SDF</Text>
-        <View style={styles.iconContainer}>
-          <Ionicons name="settings-outline" size={30} color="black" style={styles.icon} />
-          <Ionicons name="notifications-outline" size={30} color="black" style={styles.icon} />
-        </View>
->>>>>>> b9449063cce42872b524f8e103c3c5e84fb58845
       </View>
       <View style={styles.content}>
         <View style={styles.searchBar}>
