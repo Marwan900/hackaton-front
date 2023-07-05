@@ -42,6 +42,18 @@ const HomePage = ({ navigation }) => {
     setMessages(updatedMessages);
   };
 
+  const handleMedicalPress = () => {
+    // Ajoutez le code de navigation vers la page Médical
+  };
+
+  const handleFoodPress = () => {
+    // Ajoutez le code de navigation vers la page Alimentaire
+  };
+
+  const handleHomePress = () => {
+    // Ajoutez le code de navigation vers la page Maison
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.navbar}>
@@ -84,39 +96,41 @@ const HomePage = ({ navigation }) => {
             />
             <TextInput
               style={styles.modalInput}
-              placeholder="Localisation"
+              placeholder="Location"
               value={location}
               onChangeText={setLocation}
             />
-            <TouchableOpacity style={styles.modalButton} onPress={handleSendMessage}>
-              <Text style={styles.modalButtonText}>Envoyer</Text>
+            <TouchableOpacity style={styles.sendButton} onPress={handleSendMessage}>
+              <Text style={styles.sendButtonText}>Envoyer</Text>
             </TouchableOpacity>
           </View>
         )}
-        {messages.map((msg, index) => (
-          <View key={index} style={styles.messageContainer}>
-            <Text style={styles.messageType}>{msg.type}</Text>
-            <Text style={styles.messageText}>{msg.message}</Text>
-            <Text style={styles.messageLocation}>{msg.location}</Text>
-            <TouchableOpacity
-              style={styles.deleteButton}
-              onPress={() => handleDeleteMessage(index)}
-            >
-              <Ionicons name="close-circle-outline" size={24} color="black" />
-            </TouchableOpacity>
-          </View>
-        ))}
+        <View style={styles.messageList}>
+          {messages.map((message, index) => (
+            <View style={styles.messageContainer} key={index}>
+              <Text style={styles.messageType}>{message.type}</Text>
+              <Text style={styles.messageText}>{message.message}</Text>
+              <Text style={styles.messageLocation}>{message.location}</Text>
+              <TouchableOpacity
+                style={styles.deleteButton}
+                onPress={() => handleDeleteMessage(index)}
+              >
+                <Ionicons name="trash-outline" size={20} color="black" style={styles.deleteIcon} />
+              </TouchableOpacity>
+            </View>
+          ))}
+        </View>
       </View>
       <View style={styles.footer}>
-        <TouchableOpacity style={styles.footerButton}>
+        <TouchableOpacity style={styles.footerButton} onPress={handleMedicalPress}>
           <Ionicons name="medkit-outline" size={24} color="black" style={styles.footerIcon} />
           <Text style={styles.footerText}>Médical</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.footerButton}>
+        <TouchableOpacity style={styles.footerButton} onPress={handleFoodPress}>
           <Ionicons name="fast-food-outline" size={24} color="black" style={styles.footerIcon} />
           <Text style={styles.footerText}>Manger</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.footerButton}>
+        <TouchableOpacity style={styles.footerButton} onPress={handleHomePress}>
           <Ionicons name="home-outline" size={24} color="black" style={styles.footerIcon} />
           <Text style={styles.footerText}>Maison</Text>
         </TouchableOpacity>
@@ -132,27 +146,20 @@ const styles = StyleSheet.create({
   },
   navbar: {
     flexDirection: 'row',
-    alignItems: 'center',
     justifyContent: 'space-between',
+    alignItems: 'center',
     paddingHorizontal: 16,
-    paddingTop: 32,
-    height: 100,
+    paddingTop: 16,
+  },
+  iconContainer: {
+    padding: 8,
+  },
+  icon: {
+    fontSize: 24,
   },
   title: {
     fontSize: 20,
     fontWeight: 'bold',
-    textAlign: 'left',
-  },
-  iconContainer: {
-    flexDirection: 'row',
-    paddingHorizontal: 16,
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-  },
-  icon: {
-    fontSize: 24,
-    color: 'black',
-    marginLeft: 16,
   },
   content: {
     flex: 1,
@@ -161,41 +168,38 @@ const styles = StyleSheet.create({
   searchBar: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 16,
-    paddingVertical: 8,
     marginBottom: 16,
   },
   searchIcon: {
     fontSize: 24,
-    color: 'black',
     marginRight: 8,
   },
   searchInput: {
     flex: 1,
-    height: 36,
+    height: 40,
     borderWidth: 1,
     borderColor: 'black',
     borderRadius: 8,
-    paddingHorizontal: 12,
+    paddingHorizontal: 8,
   },
   addIconContainer: {
     marginLeft: 8,
+    padding: 8,
+    backgroundColor: 'lightgray',
+    borderRadius: 8,
   },
   addIcon: {
     fontSize: 24,
-    color: 'black',
   },
   messageBubble: {
-    position: 'absolute',
-    bottom: 16,
-    right: 16,
-    backgroundColor: '#ffffff',
-    borderRadius: 8,
     padding: 16,
-    width: '80%',
+    borderWidth: 1,
+    borderColor: 'black',
+    borderRadius: 8,
+    marginBottom: 16,
   },
   modalTitle: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: 'bold',
     marginBottom: 8,
   },
@@ -203,30 +207,33 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   modalInput: {
-    height: 36,
+    height: 40,
     borderWidth: 1,
     borderColor: 'black',
     borderRadius: 8,
-    paddingHorizontal: 12,
-    marginBottom: 16,
+    marginBottom: 8,
+    paddingHorizontal: 8,
   },
-  modalButton: {
-    backgroundColor: '#000000',
-    paddingHorizontal: 12,
+  sendButton: {
+    backgroundColor: 'lightgray',
     paddingVertical: 8,
     borderRadius: 8,
+    alignSelf: 'flex-start',
   },
-  modalButtonText: {
-    color: '#ffffff',
+  sendButtonText: {
+    fontSize: 16,
     fontWeight: 'bold',
+    alignSelf: 'center',
+  },
+  messageList: {
+    flex: 1,
   },
   messageContainer: {
     borderWidth: 1,
     borderColor: 'black',
     borderRadius: 8,
-    padding: 8,
-    marginBottom: 8,
-    position: 'relative',
+    padding: 16,
+    marginBottom: 16,
   },
   messageType: {
     fontSize: 16,
@@ -234,38 +241,38 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   messageText: {
-    fontSize: 16,
     marginBottom: 8,
   },
   messageLocation: {
-    fontSize: 14,
-    color: 'gray',
+    fontStyle: 'italic',
     marginBottom: 8,
   },
   deleteButton: {
     position: 'absolute',
-    top: 4,
-    right: 4,
+    top: 8,
+    right: 8,
+    padding: 8,
+  },
+  deleteIcon: {
+    fontSize: 20,
   },
   footer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
+    paddingVertical: 16,
     borderTopWidth: 1,
     borderTopColor: 'black',
-    paddingVertical: 16,
   },
   footerButton: {
     alignItems: 'center',
   },
   footerIcon: {
     fontSize: 24,
-    color: 'black',
+    marginBottom: 4,
   },
   footerText: {
-    marginTop: 8,
     fontSize: 12,
-    color: 'black',
   },
 });
 
