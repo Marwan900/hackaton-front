@@ -11,6 +11,7 @@ import NotificationPage from './Screen/Notification';
 import SettingsScreen from './Screen/Settings';
 import RegistrationPage from './Screen/RegistrationPage';
 import Annonces from './Screen/Annonces';
+import Demandes from './Screen/Demandes';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -40,6 +41,8 @@ const MainTabNavigator = () => {
             iconName = 'notifications-outline';
           } else if (route.name === 'Settings') {
             iconName = 'settings-outline';
+          } else if (route.name === 'Mes Demandes') {
+            iconName = 'clipboard-outline';
           }
 
           return <Ionicons name={iconName} size={size} color={color} />;
@@ -52,6 +55,7 @@ const MainTabNavigator = () => {
     >
       <Tab.Screen name="HomePage" component={HomeStack} />
       <Tab.Screen name="Annonces" component={Annonces} />
+      <Tab.Screen name="Mes Demandes" component={Demandes} />
     </Tab.Navigator>
   );
 };
