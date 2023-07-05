@@ -3,12 +3,34 @@ import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-nativ
 import { Ionicons } from '@expo/vector-icons';
 
 const HomePage = ({ navigation }) => {
+  const [message, setMessage] = React.useState("");
+  const [isBubbleVisible, setIsBubbleVisible] = React.useState(false);
+  const [messages, setMessages] = React.useState([]);
+
   const handleNotificationPress = () => {
     navigation.navigate('Notification');
   };
 
   const handleSettingsPress = () => {
     navigation.navigate('Settings');
+  };
+
+  const handleAddMessage = () => {
+    setIsBubbleVisible(true);
+  };
+
+  const handleSendMessage = () => {
+    if (message.trim() !== "") {
+      setMessages([...messages, message]);
+      setMessage(""); // Réinitialiser le champ de saisie du message
+      setIsBubbleVisible(false); // Masquer la bulle textuelle
+    }
+  };
+
+  const handleDeleteMessage = (index) => {
+    const updatedMessages = [...messages];
+    updatedMessages.splice(index, 1);
+    setMessages(updatedMessages);
   };
 
   return (
@@ -21,14 +43,6 @@ const HomePage = ({ navigation }) => {
         <TouchableOpacity style={styles.iconContainer} onPress={handleSettingsPress}>
           <Ionicons name="settings-outline" size={24} color="black" style={styles.icon} />
         </TouchableOpacity>
-<<<<<<< HEAD
-=======
-        <Text style={styles.title}>App SDF</Text>
-        <View style={styles.iconContainer}>
-          <Ionicons name="settings-outline" size={30} color="black" style={styles.icon} />
-          <Ionicons name="notifications-outline" size={30} color="black" style={styles.icon} />
-        </View>
->>>>>>> b9449063cce42872b524f8e103c3c5e84fb58845
       </View>
       <View style={styles.content}>
         <View style={styles.searchBar}>
@@ -38,8 +52,35 @@ const HomePage = ({ navigation }) => {
             placeholder="Rechercher..."
             // Ajoutez ici les fonctions de gestion de la recherche
           />
+          <TouchableOpacity style={styles.addIconContainer} onPress={handleAddMessage}>
+            <Ionicons name="add-outline" size={24} color="black" style={styles.addIcon} />
+          </TouchableOpacity>
         </View>
         {/* Le reste du contenu de votre page d'accueil */}
+        {isBubbleVisible && (
+          <View style={styles.messageBubble}>
+            <TextInput
+              style={styles.messageInput}
+              placeholder="Entrez votre message..."
+              value={message}
+              onChangeText={setMessage}
+            />
+            <TouchableOpacity style={styles.sendButton} onPress={handleSendMessage}>
+              <Text style={styles.sendButtonText}>Envoyer</Text>
+            </TouchableOpacity>
+          </View>
+        )}
+        {messages.map((msg, index) => (
+          <View key={index} style={styles.messageContainer}>
+            <Text style={styles.messageText}>{msg}</Text>
+            <TouchableOpacity
+              style={styles.deleteButton}
+              onPress={() => handleDeleteMessage(index)}
+            >
+              <Ionicons name="close-circle-outline" size={24} color="black" />
+            </TouchableOpacity>
+          </View>
+        ))}
       </View>
       <View style={styles.footer}>
         <TouchableOpacity style={styles.footerButton}>
@@ -116,6 +157,57 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     borderRadius: 8,
     paddingHorizontal: 12,
+  },
+  addIconContainer: {
+    marginLeft: 8,
+  },
+  addIcon: {
+    fontSize: 24,
+    color: 'black',
+  },
+  messageBubble: {
+    position: 'absolute',
+    bottom: 16,
+    right: 16,
+    backgroundColor: '#ffffff',
+    borderRadius: 8,
+    padding: 8,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  messageInput: {
+    flex: 1,
+    height: 36,
+    borderWidth: 1,
+    borderColor: 'black',
+    borderRadius: 8,
+    paddingHorizontal: 12,
+  },
+  sendButton: {
+    backgroundColor: '#2196F3',
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 8,
+  },
+  sendButtonText: {
+    color: '#ffffff',
+    fontWeight: 'bold',
+  },
+  messageContainer: {
+    borderWidth: 1,
+    borderColor: 'black',
+    borderRadius: 8,
+    padding: 8,
+    marginBottom: 8,
+    position: 'relative',
+  },
+  messageText: {
+    fontSize: 16,
+  },
+  deleteButton: {
+    position: 'absolute',
+    top: 4,
+    right: 4,
   },
   footer: {
     flexDirection: 'row',
