@@ -24,10 +24,14 @@ const LoginScreen = ({ navigation }) => {
         if (data === false) {
           setErrorMessage('Email or password is incorrect.');
         } else {
-          await AsyncStorage.setItem('accessToken', data.accessToken);
-          await AsyncStorage.setItem('currentUser', JSON.stringify(data.currentUser));
-          console.log('je suis la')
-          navigation.navigate('Main');
+          await AsyncStorage.setItem('accessToken', data.accessToken); // Store access token in local storage
+          await AsyncStorage.setItem('currentUser', JSON.stringify(data.currentUser)); // Store current user in local storage
+
+          // Redirect to the home page or perform any other necessary actions
+          navigation.reset({
+            index: 0,
+            routes: [{ name: 'Main', params: { screen: 'HomePage' } }],
+          });
         }
       } else {
         setErrorMessage('Connexion impossible.');
@@ -63,7 +67,7 @@ const LoginScreen = ({ navigation }) => {
       <TouchableOpacity style={styles.button} onPress={handleLogin}>
         <Text style={styles.buttonText}>Se connecter</Text>
       </TouchableOpacity>
-      <Text style={styles.errorText}>{errorMessage && <Text>{errorMessage}</Text>}</Text> 
+      <Text style={styles.errorText}>{errorMessage && <Text>{errorMessage}</Text>}</Text>
       <TouchableOpacity style={styles.signupButton} onPress={handleSignUp}>
         <Text style={styles.signupButtonText}>Créer un nouveau compte</Text>
       </TouchableOpacity>
