@@ -39,7 +39,7 @@ const HomePage = ({ navigation }) => {
         <TouchableOpacity style={styles.iconContainer} onPress={handleNotificationPress}>
           <Ionicons name="notifications-outline" size={24} color="black" style={styles.icon} />
         </TouchableOpacity>
-        <Text style={styles.title}>App SDF</Text>
+        <Text style={styles.title}>Héberg'Innov</Text>
         <TouchableOpacity style={styles.iconContainer} onPress={handleSettingsPress}>
           <Ionicons name="settings-outline" size={24} color="black" style={styles.icon} />
         </TouchableOpacity>
@@ -184,7 +184,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
   },
   sendButton: {
-    backgroundColor: '#2196F3',
+    backgroundColor: '#000000',
     paddingHorizontal: 12,
     paddingVertical: 8,
     borderRadius: 8,
