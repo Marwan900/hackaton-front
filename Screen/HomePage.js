@@ -3,6 +3,10 @@ import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-nativ
 import { Ionicons } from '@expo/vector-icons';
 
 const HomePage = ({ navigation }) => {
+  const [message, setMessage] = React.useState("");
+  const [isBubbleVisible, setIsBubbleVisible] = React.useState(false);
+  const [messages, setMessages] = React.useState([]);
+
   const handleNotificationPress = () => {
     navigation.navigate('Notification');
   };
@@ -11,13 +15,31 @@ const HomePage = ({ navigation }) => {
     navigation.navigate('Settings');
   };
 
+  const handleAddMessage = () => {
+    setIsBubbleVisible(true);
+  };
+
+  const handleSendMessage = () => {
+    if (message.trim() !== "") {
+      setMessages([...messages, message]);
+      setMessage(""); // Réinitialiser le champ de saisie du message
+      setIsBubbleVisible(false); // Masquer la bulle textuelle
+    }
+  };
+
+  const handleDeleteMessage = (index) => {
+    const updatedMessages = [...messages];
+    updatedMessages.splice(index, 1);
+    setMessages(updatedMessages);
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.navbar}>
         <TouchableOpacity style={styles.iconContainer} onPress={handleNotificationPress}>
           <Ionicons name="notifications-outline" size={24} color="black" style={styles.icon} />
         </TouchableOpacity>
-        <Text style={styles.title}>App SDF</Text>
+        <Text style={styles.title}>Héberg'Innov</Text>
         <TouchableOpacity style={styles.iconContainer} onPress={handleSettingsPress}>
           <Ionicons name="settings-outline" size={24} color="black" style={styles.icon} />
         </TouchableOpacity>
@@ -30,8 +52,35 @@ const HomePage = ({ navigation }) => {
             placeholder="Rechercher..."
             // Ajoutez ici les fonctions de gestion de la recherche
           />
+          <TouchableOpacity style={styles.addIconContainer} onPress={handleAddMessage}>
+            <Ionicons name="add-outline" size={24} color="black" style={styles.addIcon} />
+          </TouchableOpacity>
         </View>
         {/* Le reste du contenu de votre page d'accueil */}
+        {isBubbleVisible && (
+          <View style={styles.messageBubble}>
+            <TextInput
+              style={styles.messageInput}
+              placeholder="Entrez votre message..."
+              value={message}
+              onChangeText={setMessage}
+            />
+            <TouchableOpacity style={styles.sendButton} onPress={handleSendMessage}>
+              <Text style={styles.sendButtonText}>Envoyer</Text>
+            </TouchableOpacity>
+          </View>
+        )}
+        {messages.map((msg, index) => (
+          <View key={index} style={styles.messageContainer}>
+            <Text style={styles.messageText}>{msg}</Text>
+            <TouchableOpacity
+              style={styles.deleteButton}
+              onPress={() => handleDeleteMessage(index)}
+            >
+              <Ionicons name="close-circle-outline" size={24} color="black" />
+            </TouchableOpacity>
+          </View>
+        ))}
       </View>
       <View style={styles.footer}>
         <TouchableOpacity style={styles.footerButton}>
@@ -108,6 +157,57 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     borderRadius: 8,
     paddingHorizontal: 12,
+  },
+  addIconContainer: {
+    marginLeft: 8,
+  },
+  addIcon: {
+    fontSize: 24,
+    color: 'black',
+  },
+  messageBubble: {
+    position: 'absolute',
+    bottom: 16,
+    right: 16,
+    backgroundColor: '#ffffff',
+    borderRadius: 8,
+    padding: 8,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  messageInput: {
+    flex: 1,
+    height: 36,
+    borderWidth: 1,
+    borderColor: 'black',
+    borderRadius: 8,
+    paddingHorizontal: 12,
+  },
+  sendButton: {
+    backgroundColor: '#000000',
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 8,
+  },
+  sendButtonText: {
+    color: '#ffffff',
+    fontWeight: 'bold',
+  },
+  messageContainer: {
+    borderWidth: 1,
+    borderColor: 'black',
+    borderRadius: 8,
+    padding: 8,
+    marginBottom: 8,
+    position: 'relative',
+  },
+  messageText: {
+    fontSize: 16,
+  },
+  deleteButton: {
+    position: 'absolute',
+    top: 4,
+    right: 4,
   },
   footer: {
     flexDirection: 'row',
