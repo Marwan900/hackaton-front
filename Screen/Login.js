@@ -16,19 +16,18 @@ const LoginScreen = ({ navigation }) => {
         },
         body: JSON.stringify({ email, pwd: password }),
       });
-
+  
       const data = await response.json();
       console.log(data);
-
+  
       if (response.ok) {
         if (data === false) {
           setErrorMessage('Email or password is incorrect.');
         } else {
-          await AsyncStorage.setItem('accessToken', data.accessToken); // Store access token in local storage
-          await AsyncStorage.setItem('currentUser', JSON.stringify(data.currentUser)); // Store current user in local storage
-
-          // Redirect to the home page or perform any other necessary actions
-          navigation.navigate('Home');
+          await AsyncStorage.setItem('accessToken', data.accessToken);
+          await AsyncStorage.setItem('currentUser', JSON.stringify(data.currentUser));
+          console.log('je suis la')
+          navigation.navigate('Main');
         }
       } else {
         setErrorMessage('Connexion impossible.');
@@ -39,6 +38,7 @@ const LoginScreen = ({ navigation }) => {
       console.error(error);
     }
   };
+  
 
   const handleSignUp = () => {
     navigation.navigate('Registration');
