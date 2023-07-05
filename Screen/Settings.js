@@ -5,7 +5,10 @@ import { Ionicons } from '@expo/vector-icons';
 const SettingsScreen = ({ navigation }) => {
   const handleLogout = () => {
     // Logique pour la déconnexion du compte
-    navigation.navigate('Login');
+    navigation.reset({
+      index: 0,
+      routes: [{ name: 'Login' }],
+    });
   };
 
   return (
