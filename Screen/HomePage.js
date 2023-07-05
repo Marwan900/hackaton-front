@@ -9,6 +9,8 @@ const HomePage = ({ navigation }) => {
   const [messages, setMessages] = React.useState([]);
   const [selectedType, setSelectedType] = React.useState("Médical");
   const [location, setLocation] = React.useState("");
+  const [isEditing, setIsEditing] = React.useState(false);
+  const [editedMessageIndex, setEditedMessageIndex] = React.useState(null);
 
   const handleNotificationPress = () => {
     navigation.navigate('Notification');
@@ -24,12 +26,25 @@ const HomePage = ({ navigation }) => {
 
   const handleSendMessage = () => {
     if (message.trim() !== "" && location.trim() !== "") {
-      const newMessage = {
-        type: selectedType,
-        message: message,
-        location: location
-      };
-      setMessages([...messages, newMessage]);
+      if (isEditing) {
+        const updatedMessages = [...messages];
+        const editedMessage = {
+          type: selectedType,
+          message: message,
+          location: location
+        };
+        updatedMessages[editedMessageIndex] = editedMessage;
+        setMessages(updatedMessages);
+        setIsEditing(false);
+        setEditedMessageIndex(null);
+      } else {
+        const newMessage = {
+          type: selectedType,
+          message: message,
+          location: location
+        };
+        setMessages([...messages, newMessage]);
+      }
       setMessage("");
       setLocation("");
       setIsBubbleVisible(false);
@@ -40,6 +55,24 @@ const HomePage = ({ navigation }) => {
     const updatedMessages = [...messages];
     updatedMessages.splice(index, 1);
     setMessages(updatedMessages);
+  };
+
+  const handleEditMessage = (index) => {
+    const editedMessage = messages[index];
+    setSelectedType(editedMessage.type);
+    setMessage(editedMessage.message);
+    setLocation(editedMessage.location);
+    setIsBubbleVisible(true);
+    setIsEditing(true);
+    setEditedMessageIndex(index);
+  };
+
+  const handleCancel = () => {
+    setIsBubbleVisible(false);
+    setIsEditing(false);
+    setEditedMessageIndex(null);
+    setMessage("");
+    setLocation("");
   };
 
   const handleMedicalPress = () => {
@@ -78,7 +111,7 @@ const HomePage = ({ navigation }) => {
         </View>
         {isBubbleVisible && (
           <View style={styles.messageBubble}>
-            <Text style={styles.modalTitle}>Nouveau message</Text>
+            <Text style={styles.modalTitle}>{isEditing ? 'Modifier le message' : 'Nouveau message'}</Text>
             <Picker
               style={styles.picker}
               selectedValue={selectedType}
@@ -100,9 +133,14 @@ const HomePage = ({ navigation }) => {
               value={location}
               onChangeText={setLocation}
             />
-            <TouchableOpacity style={styles.sendButton} onPress={handleSendMessage}>
-              <Text style={styles.sendButtonText}>Envoyer</Text>
-            </TouchableOpacity>
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity style={styles.sendButton} onPress={handleSendMessage}>
+                <Text style={styles.sendButtonText}>{isEditing ? 'Modifier' : 'Envoyer'}</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.cancelButton} onPress={handleCancel}>
+                <Text style={styles.cancelButtonText}>Annuler</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         )}
         <View style={styles.messageList}>
@@ -116,6 +154,12 @@ const HomePage = ({ navigation }) => {
                 onPress={() => handleDeleteMessage(index)}
               >
                 <Ionicons name="trash-outline" size={20} color="black" style={styles.deleteIcon} />
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.editButton}
+                onPress={() => handleEditMessage(index)}
+              >
+                <Ionicons name="pencil-outline" size={20} color="black" style={styles.deleteIcon} />
               </TouchableOpacity>
             </View>
           ))}
@@ -148,17 +192,18 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    backgroundColor: '#ffffff',
     paddingHorizontal: 16,
-    paddingTop: 16,
+    paddingTop: 32,
   },
   iconContainer: {
     padding: 8,
   },
   icon: {
-    fontSize: 24,
+    marginRight: 8,
   },
   title: {
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: 'bold',
   },
   content: {
@@ -168,107 +213,115 @@ const styles = StyleSheet.create({
   searchBar: {
     flexDirection: 'row',
     alignItems: 'center',
+    backgroundColor: '#f2f2f2',
+    borderRadius: 8,
+    paddingVertical: 8,
+    paddingHorizontal: 16,
     marginBottom: 16,
   },
   searchIcon: {
-    fontSize: 24,
     marginRight: 8,
   },
   searchInput: {
     flex: 1,
-    height: 40,
-    borderWidth: 1,
-    borderColor: 'black',
-    borderRadius: 8,
-    paddingHorizontal: 8,
   },
   addIconContainer: {
     marginLeft: 8,
     padding: 8,
-    backgroundColor: 'lightgray',
-    borderRadius: 8,
   },
   addIcon: {
-    fontSize: 24,
+    marginRight: 8,
   },
   messageBubble: {
-    padding: 16,
-    borderWidth: 1,
-    borderColor: 'black',
+    backgroundColor: '#ffffff',
     borderRadius: 8,
+    padding: 16,
     marginBottom: 16,
   },
   modalTitle: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 8,
   },
   picker: {
-    marginBottom: 16,
+    marginBottom: 8,
   },
   modalInput: {
-    height: 40,
-    borderWidth: 1,
-    borderColor: 'black',
-    borderRadius: 8,
+    backgroundColor: '#f2f2f2',
+    borderRadius: 4,
+    padding: 8,
     marginBottom: 8,
-    paddingHorizontal: 8,
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
   },
   sendButton: {
-    backgroundColor: 'lightgray',
+    backgroundColor: '#2196F3',
+    borderRadius: 4,
+    paddingHorizontal: 16,
     paddingVertical: 8,
-    borderRadius: 8,
-    alignSelf: 'flex-start',
+    marginRight: 8,
   },
   sendButtonText: {
-    fontSize: 16,
+    color: '#ffffff',
     fontWeight: 'bold',
-    alignSelf: 'center',
+  },
+  cancelButton: {
+    backgroundColor: '#ff0000',
+    borderRadius: 4,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+  },
+  cancelButtonText: {
+    color: '#ffffff',
+    fontWeight: 'bold',
   },
   messageList: {
     flex: 1,
   },
   messageContainer: {
-    borderWidth: 1,
-    borderColor: 'black',
+    backgroundColor: '#f2f2f2',
     borderRadius: 8,
     padding: 16,
     marginBottom: 16,
   },
   messageType: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: 'bold',
-    marginBottom: 8,
+    marginBottom: 4,
   },
   messageText: {
-    marginBottom: 8,
+    marginBottom: 4,
   },
   messageLocation: {
-    fontStyle: 'italic',
     marginBottom: 8,
   },
   deleteButton: {
     position: 'absolute',
     top: 8,
     right: 8,
-    padding: 8,
+  },
+  editButton: {
+    position: 'absolute',
+    top: 8,
+    right: 40,
   },
   deleteIcon: {
-    fontSize: 20,
+    marginRight: 8,
   },
   footer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
+    backgroundColor: '#ffffff',
     paddingVertical: 16,
-    borderTopWidth: 1,
-    borderTopColor: 'black',
   },
   footerButton: {
+    flexDirection: 'column',
     alignItems: 'center',
   },
   footerIcon: {
-    fontSize: 24,
     marginBottom: 4,
   },
   footerText: {
