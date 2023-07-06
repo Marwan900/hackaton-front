@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image} from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { Ionicons } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const AnnouncesPage = ({ navigation }) => {
   const [message, setMessage] = React.useState("");
@@ -11,6 +12,9 @@ const AnnouncesPage = ({ navigation }) => {
   const [location, setLocation] = React.useState("");
   const [isEditing, setIsEditing] = React.useState(false);
   const [editedMessageIndex, setEditedMessageIndex] = React.useState(null);
+  const [userType, setUserType] = useState("");
+  const [userName, setUserName] = useState("");
+  const [userId, setUserId] = useState("");
 
   const handleNotificationPress = () => {
     navigation.navigate('Notification');
@@ -24,14 +28,28 @@ const AnnouncesPage = ({ navigation }) => {
     setIsBubbleVisible(true);
   };
 
-  const handleSendMessage = () => {
+  const readCurrentUser = async () => {
+    try {
+      const currentUser = await AsyncStorage.getItem('currentUser');
+      if (currentUser !== null) {
+        const parsedUser = JSON.parse(currentUser);
+        setUserType(parsedUser.type);
+        setUserName(parsedUser.firstname +" "+parsedUser.lastname);
+        setUserId(parsedUser._id);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const handleSendMessage = async () => {
+    readCurrentUser();
     if (message.trim() !== "" && location.trim() !== "") {
       if (isEditing) {
         const updatedMessages = [...messages];
         const editedMessage = {
           type: selectedType,
-          message: message,
-          location: location
+          title: message,
+          place: location
         };
         updatedMessages[editedMessageIndex] = editedMessage;
         setMessages(updatedMessages);
@@ -39,11 +57,33 @@ const AnnouncesPage = ({ navigation }) => {
         setEditedMessageIndex(null);
       } else {
         const newMessage = {
+          userId: userId,
+          userName:userName,
+          userType:userType,
           type: selectedType,
-          message: message,
-          location: location
+          title: message,
+          place: location
         };
-        setMessages([...messages, newMessage]);
+        try {
+          const response = await fetch('http://10.0.2.2:3000/announces/addAnnounce', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(newMessage),
+          });
+          const data = await response.json();
+          console.log(data); // Log the response data to check its content
+          if (response.ok) {
+            // successful
+            setMessages([...messages, newMessage]);
+          } else {
+            console.error(data.error);
+          }
+        } catch (error) {
+          // Handle error or show appropriate message
+          console.error(error);
+        }
       }
       setMessage("");
       setLocation("");
@@ -100,7 +140,7 @@ const AnnouncesPage = ({ navigation }) => {
         </View>
         {isBubbleVisible && (
           <View style={styles.messageBubble}>
-            <Text style={styles.modalTitle}>{isEditing ? 'Modifier le message' : 'Nouveau message'}</Text>
+            <Text style={styles.modalTitle}>{isEditing ? 'Modifier une annonce' : 'Nouvelle annonce'}</Text>
             <Picker
               style={styles.picker}
               selectedValue={selectedType}
@@ -109,6 +149,7 @@ const AnnouncesPage = ({ navigation }) => {
               <Picker.Item label="Médical" value="Médical" />
               <Picker.Item label="Alimentaire" value="Alimentaire" />
               <Picker.Item label="Hébergement" value="Hébergement" />
+              <Picker.Item label="Vétements" value="Vétements" />
             </Picker>
             <TextInput
               style={styles.modalInput}
@@ -136,8 +177,8 @@ const AnnouncesPage = ({ navigation }) => {
           {messages.map((message, index) => (
             <View style={styles.messageContainer} key={index}>
               <Text style={styles.messageType}>{message.type}</Text>
-              <Text style={styles.messageText}>{message.message}</Text>
-              <Text style={styles.messageLocation}>{message.location}</Text>
+              <Text style={styles.messageText}>{message.title}</Text>
+              <Text style={styles.messageLocation}>{message.place}</Text>
               <TouchableOpacity
                 style={styles.deleteButton}
                 onPress={() => handleDeleteMessage(index)}

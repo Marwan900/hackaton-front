@@ -6,6 +6,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const HomePage = ({ navigation }) => {
   const [announces, setAnnounces] = useState([]);
   const [userType, setUserType] = useState("");
+  const [loading, setLoading] = useState(true); // Added loading state
 
   const readCurrentUser = async () => {
     try {
@@ -21,19 +22,24 @@ const HomePage = ({ navigation }) => {
 
   useEffect(() => {
     readCurrentUser();
-    fetchAnnounces(userType);
   }, []);
+  
+  useEffect(() => {
+    if (userType !== "") {
+      fetchAnnounces(userType);
+    }
+  }, [userType]);
 
   const fetchAnnounces = async (userType) => {
     try {
-      console.log('hi')
       const url = `http://10.0.2.2:3000/announces/getAnnounces?userType=${userType}`;
       const response = await fetch(url);
       const data = await response.json();
-      console.log(data)
       setAnnounces(data);
+      setLoading(false); // Set loading to false when data is fetched
     } catch (error) {
       console.log(error);
+      setLoading(false); // Set loading to false on error as well
     }
   };
 
@@ -50,13 +56,21 @@ const HomePage = ({ navigation }) => {
     return new Date(date).toLocaleDateString(undefined, options);
   };
 
+  if (loading) {
+    return (
+      <View style={styles.container}>
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.navbar}>
         <TouchableOpacity style={styles.iconContainer} onPress={handleNotificationPress}>
           <Ionicons name="notifications-outline" size={24} color="black" style={styles.icon} />
         </TouchableOpacity>
-        <Image source={require('../assets/logo_heberginnov.png')} style={styles.logo} resizeMode="contain"  />
+        <Image source={require('../assets/logo_heberginnov.png')} style={styles.logo} resizeMode="contain" />
         <TouchableOpacity style={styles.iconContainer} onPress={handleSettingsPress}>
           <Ionicons name="settings-outline" size={24} color="black" style={styles.icon} />
         </TouchableOpacity>
@@ -70,25 +84,25 @@ const HomePage = ({ navigation }) => {
       </View>
       <ScrollView style={styles.scrollContainer}>
         {announces.map((announce, index) => (
-         <View style={styles.announceContainer}>
-         <View style={styles.announceDetailsContainer}>
-           <Image source={require(`../assets/2.png`)} style={styles.announceImage} />
-           <View style={styles.announceTextContainer}>
-             <Text style={styles.announceTitle}>{announce.title}</Text>
-             <Text style={styles.announceDetails}>Commentaire: {announce.comment}</Text>
-             <Text style={styles.announceDetails}>Nom: {announce.userName}</Text>
-             <Text style={styles.announceDetails}>Type: {announce.type}</Text>
-             <Text style={styles.announceDetails}>Location: {announce.place}</Text>
-             <Text style={styles.announceDetails}>Date: {formatDate(announce.date)}</Text>
-           </View>
-         </View>
-         <View style={styles.buttonContainerContainer}>
-           <TouchableOpacity style={styles.buttonContainer}>
-             <Ionicons name="heart" size={24} color="red" style={styles.buttonIcon} />
-             <Text style={styles.buttonText}>{userType === 'benevole' ? "Demander de l'aide" : "Aider"}</Text>
-           </TouchableOpacity>
-         </View>
-       </View>
+          <View style={styles.announceContainer} key={index}>
+            <View style={styles.announceDetailsContainer}>
+              <Image source={require(`../assets/2.png`)} style={styles.announceImage} />
+              <View style={styles.announceTextContainer}>
+                <Text style={styles.announceTitle}>{announce.title}</Text>
+                <Text style={styles.announceDetails}>Commentaire: {announce.comment}</Text>
+                <Text style={styles.announceDetails}>Nom: {announce.userName}</Text>
+                <Text style={styles.announceDetails}>Type: {announce.type}</Text>
+                <Text style={styles.announceDetails}>Location: {announce.place}</Text>
+                <Text style={styles.announceDetails}>Date: {formatDate(announce.date)}</Text>
+              </View>
+            </View>
+            <View style={styles.buttonContainerContainer}>
+              <TouchableOpacity style={styles.buttonContainer}>
+                <Ionicons name="heart" size={24} color="red" style={styles.buttonIcon} />
+                <Text style={styles.buttonText}>{userType === 'benevole' ? "Demander de l'aide" : "Aider"}</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
         ))}
       </ScrollView>
     </View>
@@ -118,11 +132,6 @@ const styles = StyleSheet.create({
   icon: {
     marginRight: 8,
   },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#333333',
-  },
   scrollContainer: {
     paddingHorizontal: 16,
     paddingTop: 16,
@@ -146,7 +155,7 @@ const styles = StyleSheet.create({
   },
   announceTextContainer: {
     flex: 1,
-    marginLeft: 16, // Add margin to create space between the image and text
+    marginLeft: 16,
   },
   announceTitle: {
     fontSize: 18,
@@ -191,10 +200,6 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 16,
     color: '#333333',
-  },
-  announceImage: {
-    width: 60,
-    height: 60,
   },
 });
 
