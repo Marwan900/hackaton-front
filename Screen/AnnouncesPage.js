@@ -1,9 +1,9 @@
 import React from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity} from 'react-native';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image} from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { Ionicons } from '@expo/vector-icons';
 
-const Annonces = ({ navigation }) => {
+const AnnouncesPage = ({ navigation }) => {
   const [message, setMessage] = React.useState("");
   const [isBubbleVisible, setIsBubbleVisible] = React.useState(false);
   const [messages, setMessages] = React.useState([]);
@@ -75,17 +75,6 @@ const Annonces = ({ navigation }) => {
     setLocation("");
   };
 
-  const handleMedicalPress = () => {
-    // Ajoutez le code de navigation vers la page Médical
-  };
-
-  const handleFoodPress = () => {
-    // Ajoutez le code de navigation vers la page Alimentaire
-  };
-
-  const handleHomePress = () => {
-    // Ajoutez le code de navigation vers la page Maison
-  };
 
   return (
     <View style={styles.container}>
@@ -93,7 +82,7 @@ const Annonces = ({ navigation }) => {
         <TouchableOpacity style={styles.iconContainer} onPress={handleNotificationPress}>
           <Ionicons name="notifications-outline" size={24} color="black" style={styles.icon} />
         </TouchableOpacity>
-        <Text style={styles.title}>Héberg'Innov</Text>
+        <Image source={require('../assets/logo_heberginnov.png')} style={styles.logo} resizeMode="contain"  />
         <TouchableOpacity style={styles.iconContainer} onPress={handleSettingsPress}>
           <Ionicons name="settings-outline" size={24} color="black" style={styles.icon} />
         </TouchableOpacity>
@@ -170,6 +159,11 @@ const Annonces = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
+  logo: {
+    width: 200,
+    height: 100,
+    marginBottom: 5,
+  },
   container: {
     flex: 1,
     backgroundColor: '#ffffff',
@@ -315,4 +309,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Annonces;
+export default AnnouncesPage;

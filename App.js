@@ -1,5 +1,4 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -10,8 +9,8 @@ import HomePage from './Screen/HomePage';
 import NotificationPage from './Screen/Notification';
 import SettingsScreen from './Screen/Settings';
 import RegistrationPage from './Screen/RegistrationPage';
-import Annonces from './Screen/Annonces';
-import Demandes from './Screen/Demandes';
+import AnnouncesPage from './Screen/AnnouncesPage';
+import DemandsPage from './Screen/DemandsPage';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -35,7 +34,7 @@ const MainTabNavigator = () => {
 
           if (route.name === 'HomePage') {
             iconName = 'home-outline';
-          } else if (route.name === 'Annonces') {
+          } else if (route.name === 'Mes Annonces') {
             iconName = 'list-outline';
           } else if (route.name === 'Notification') {
             iconName = 'notifications-outline';
@@ -49,13 +48,13 @@ const MainTabNavigator = () => {
         },
       })}
       tabBarOptions={{
-        activeTintColor: 'blue',
+        activeTintColor: '#0d7377',
         inactiveTintColor: 'gray',
       }}
     >
-      <Tab.Screen name="HomePage" component={HomeStack} />
-      <Tab.Screen name="Annonces" component={Annonces} />
-      <Tab.Screen name="Mes Demandes" component={Demandes} />
+      <Tab.Screen name="HomePage" component={HomeStack} options={{ headerShown: false }}/>
+      <Tab.Screen name="Mes Annonces" component={AnnouncesPage} options={{ headerShown: false }}/>
+      <Tab.Screen name="Mes Demandes" component={DemandsPage} options={{ headerShown: false }}/>
     </Tab.Navigator>
   );
 };

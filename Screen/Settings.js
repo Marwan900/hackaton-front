@@ -1,10 +1,12 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage'; // Import AsyncStorage
 
 const SettingsScreen = ({ navigation }) => {
   const handleLogout = () => {
     // Logique pour la déconnexion du compte
+    AsyncStorage.clear();
     navigation.reset({
       index: 0,
       routes: [{ name: 'Login' }],
@@ -67,7 +69,7 @@ const styles = StyleSheet.create({
     marginBottom: 32,
   },
   logoutButton: {
-    backgroundColor: '#4287f5',
+    backgroundColor: '#0d7377',
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 5,

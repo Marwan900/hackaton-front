@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage'; // Import AsyncStorage
 
 const LoginScreen = ({ navigation }) => {
@@ -50,7 +50,7 @@ const LoginScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Connexion</Text>
+      <Image source={require('../assets/logo_heberginnov.png')} style={styles.logo} resizeMode="contain"  />
       <TextInput
         style={styles.input}
         placeholder="Email"
@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
   },
   button: {
     width: '80%',
-    backgroundColor: '#4287f5',
+    backgroundColor: '#0d7377',
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 5,
@@ -118,12 +118,17 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 5,
-    borderColor: 'black',
+    borderColor: '#0d7377',
     borderStyle: 'solid',
     borderWidth: 2,
   },
+  logo: {
+    width: 300,
+    height: 200,
+    marginBottom: 20,
+  },
   signupButtonText: {
-    color: 'black',
+    color: '#0d7377',
     fontSize: 16,
     fontWeight: 'bold',
   },

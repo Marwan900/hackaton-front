@@ -82,7 +82,7 @@ const RegistrationPage = ({ navigation }) => {
         onChangeText={setMotDePasse}
       />
       <View style={styles.radioContainer}>
-        <Text style={styles.radioLabel}>Type:</Text>
+        <Text style={styles.radioLabel}>Vous êtes:</Text>
         <View style={styles.radioButton}>
           <TouchableOpacity
             style={[
@@ -173,12 +173,12 @@ const styles = StyleSheet.create({
     borderColor: '#CCCCCC',
   },
   radioOptionSelected: {
-    backgroundColor: '#4287f5',
-    borderColor: '#4287f5',
+    backgroundColor: '#0d7377',
+    borderColor: '#0d7377',
   },
   radioOptionText: {
     fontSize: 16,
-    color: '#4287f5',
+    color: '#0d7377',
   },
   radioOptionTextSelected: {
     color: '#FFFFFF',
@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
   button: {
     width: '100%',
     height: 50,
-    backgroundColor: '#4287f5',
+    backgroundColor: '#0d7377',
     borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
